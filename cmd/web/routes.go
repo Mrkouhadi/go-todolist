@@ -20,7 +20,7 @@ func Routes(app *config.Appconfiguration) http.Handler {
 	// apply GET requests
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/alltodos", handlers.Repo.AllTodos)
-
+	mux.Get("/search", handlers.Repo.SearchTodos)
 	// apply POST requests
 
 	// render files in the template(html)

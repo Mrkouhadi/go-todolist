@@ -29,13 +29,17 @@ func NewHandlers(R *Repository) {
 
 // HOME
 func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	repo.AppConfig.Session.Put(r.Context(), "greet", "Hello the world of golang devs")
+	// repo.AppConfig.Session.Put(r.Context(), "greet", "Hello the world of golang devs")
 	rendertemplates.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 // TODOS
 func (repo *Repository) AllTodos(w http.ResponseWriter, r *http.Request) {
-	greet := repo.AppConfig.Session.GetString(r.Context(), "greet")
-	w.Write([]byte(greet))
+	// greet := repo.AppConfig.Session.GetString(r.Context(), "greet")
 	rendertemplates.RenderTemplate(w, r, "alltodos.page.tmpl", &models.TemplateData{})
+}
+
+// SEARCH
+func (repo *Repository) SearchTodos(w http.ResponseWriter, r *http.Request) {
+	rendertemplates.RenderTemplate(w, r, "search.page.tmpl", &models.TemplateData{})
 }
