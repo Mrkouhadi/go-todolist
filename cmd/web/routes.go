@@ -21,8 +21,9 @@ func Routes(app *config.Appconfiguration) http.Handler {
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/alltodos", handlers.Repo.AllTodos)
 	mux.Get("/search", handlers.Repo.SearchTodos)
+	mux.Get("/addnewtodo", handlers.Repo.AddNewTodo)
 	// apply POST requests
-
+	mux.Post("/addnewtodo", handlers.Repo.PostNewTodo)
 	// render files in the template(html)
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))

@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/mrkouhadi/go-todolist/internal/config"
 	"github.com/mrkouhadi/go-todolist/internal/models"
@@ -42,4 +44,42 @@ func (repo *Repository) AllTodos(w http.ResponseWriter, r *http.Request) {
 // SEARCH
 func (repo *Repository) SearchTodos(w http.ResponseWriter, r *http.Request) {
 	rendertemplates.RenderTemplate(w, r, "search.page.tmpl", &models.TemplateData{})
+}
+
+// add new todo
+//
+//	GET
+func (repo *Repository) AddNewTodo(w http.ResponseWriter, r *http.Request) {
+	rendertemplates.RenderTemplate(w, r, "addnewtodo.page.tmpl", &models.TemplateData{})
+}
+
+// POST
+func (repo *Repository) PostNewTodo(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	// data
+	newTodo := models.TODO{
+		Title:       r.Form.Get("title"),
+		Email:       r.Form.Get("email"),
+		Content:     r.Form.Get("content"),
+		IsImportant: convertStrToBool(r.Form.Get("important")),
+		IsDone:      false,
+		Time:        time.Now(),
+	}
+
+	data := make(map[string]interface{})
+	data["todo"] = newTodo
+
+	log.Println(newTodo)
+	rendertemplates.RenderTemplate(w, r, "addnewtodo.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
+}
+
+// convertStrToBool helps us convert value of checkbox from "on"/"off" to true/false
+func convertStrToBool(s string) bool {
+	return s == "on"
 }
