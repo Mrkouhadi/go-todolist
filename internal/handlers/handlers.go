@@ -45,16 +45,21 @@ func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
 
 // ******************* TODOS
 // GET json
-type jsonRes struct {
-	OK      bool          `json:"ok"`
-	MESSAGE []models.TODO `json:"message"`
+func (repo *Repository) AllTodos(w http.ResponseWriter, r *http.Request) {
+	rendertemplates.RenderTemplate(w, r, "alltodos.page.tmpl", &models.TemplateData{})
 }
 
-func (repo *Repository) AllTodos(w http.ResponseWriter, r *http.Request) {
+// json experimental
+type jsonRes struct {
+	OK    bool          `json:"ok"`
+	TODOS []models.TODO `json:"todos"`
+}
+
+func (repo *Repository) AllTodosjson(w http.ResponseWriter, r *http.Request) {
 	// greet := repo.AppConfig.Session.GetString(r.Context(), "greet")
 	resp := jsonRes{
 		OK: true,
-		MESSAGE: []models.TODO{
+		TODOS: []models.TODO{
 			{
 				Title:       "hello gophers",
 				Email:       "bryan@kouhadi.com",
@@ -81,7 +86,6 @@ func (repo *Repository) AllTodos(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	// send data as json to the client
 	w.Write(out)
-	// rendertemplates.RenderTemplate(w, r, "alltodos.page.tmpl", &models.TemplateData{})
 }
 
 // ******************* SEARCH
@@ -100,11 +104,8 @@ func (repo *Repository) PostSearchTodos(w http.ResponseWriter, r *http.Request) 
 	title := r.Form.Get("title")
 	done := convertStrToBool(r.Form.Get("done"))
 	important := convertStrToBool(r.Form.Get("important"))
-
 	log.Println(title, done, important)
 	w.Write([]byte(fmt.Sprintf("title: %s", title)))
-
-	// rendertemplates.RenderTemplate(w, r, "search.page.tmpl", &models.TemplateData{})
 }
 
 // ****************** ADD NEW TODOS
@@ -121,6 +122,7 @@ func (repo *Repository) PostNewTodo(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
+
 	// data
 	newTodo := models.TODO{
 		Title:       r.Form.Get("title"),
