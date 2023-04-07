@@ -17,11 +17,15 @@ func Routes(app *config.Appconfiguration) http.Handler {
 	mux.Use(middleware.Recoverer)
 	mux.Use(Nosurf) //  ignore any POST request that doesn't have CSRF token
 	mux.Use(LoadSession)
+	mux.Use(LogMidleware)
 	// apply GET requests
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/alltodos", handlers.Repo.AllTodos)
 	mux.Get("/search", handlers.Repo.SearchTodos)
 	mux.Get("/addnewtodo", handlers.Repo.AddNewTodo)
+
+	// json experimental
+	mux.Get("/alltodos-json", handlers.Repo.AllTodosjson)
 
 	// apply POST requests
 	mux.Post("/addnewtodo", handlers.Repo.PostNewTodo)
