@@ -46,7 +46,30 @@ func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
 // ******************* TODOS
 // GET json
 func (repo *Repository) AllTodos(w http.ResponseWriter, r *http.Request) {
-	rendertemplates.RenderTemplate(w, r, "alltodos.page.tmpl", &models.TemplateData{})
+	todos := []models.TODO{
+		{
+			Title:       "hello gophers",
+			Email:       "bryan@kouhadi.com",
+			Content:     "this is  the content of my todo ",
+			IsImportant: true,
+			IsDone:      false,
+			Time:        time.Now(),
+		},
+		{
+			Title:       "hello gophers 2",
+			Email:       "bryan@kouhadi2.com",
+			Content:     "this is  the content of my todo 2",
+			IsImportant: false,
+			IsDone:      true,
+			Time:        time.Now(),
+		},
+	}
+	data := make(map[string]interface{})
+	data["todos"] = todos
+	data["PageTitle"] = "All todos Listed here !"
+	rendertemplates.RenderTemplate(w, r, "alltodos.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 }
 
 // json experimental

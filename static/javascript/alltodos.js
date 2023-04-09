@@ -1,3 +1,8 @@
+
+/* this file add todos from "AllTodosjson handler inside internal/handlers/handlers.go"
+* I copied the code to use template data
+*/
+
 const container = document.querySelector(".todolist");
 
 // fetching JSON data from /alltodos
@@ -28,7 +33,7 @@ const fetchDATA= async ()=>{
           })
           .catch(err => console.log("errr: ", err))
 }
-fetchDATA()
+// fetchDATA()
 
 // create an html element
 const CreateEl=(ell, txt)=>{

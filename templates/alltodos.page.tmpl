@@ -1,13 +1,19 @@
 {{template "base" .}}
-{{define "content"}}
-    <div class="h-screen  bg-pink-400">
-        <h1 class="text-3xl ">All todos to be here </h1>
-        <div class="todolist flex justify-between items-center">
 
-        </div>
+{{define "alltodos"}}
+<div class="h-screen  bg-pink-400">
+    <h1 class="text-3xl ">{{index .Data "PageTitle"}}</h1>
+    <div class="todolist">
+       <p> Hi todos </p>
+       {{ $t := index .Data "todos" }}
+       {{range $t }}
+         <h1>{{.Title}}</h1>
+       {{end}}
+       <p>There {{len $t}} Todos in your List</p>
     </div>
+</div>
 {{end}}
 
-{{define "javascript"}}
-        <script src="./static/javascript/alltodos.js"> </script>
+{{define "alltodos-js"}}
+    <script src="./static/javascript/alltodos.js"> </script> 
 {{end}}
