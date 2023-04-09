@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 
 	"github.com/justinas/nosurf"
@@ -25,10 +25,10 @@ func LoadSession(next http.Handler) http.Handler {
 	return todoSessionManager.LoadAndSave(next)
 }
 
-// experimental middleware that only los somethign to the console
+// experimental middleware that only log "I am comming from Middleware !" to the console
 func LogMidleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Println("I am a customized middleware...")
+		fmt.Println("I am comming from Middleware !")
 		next.ServeHTTP(w, r)
 	})
 }

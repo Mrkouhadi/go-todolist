@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>TODO-LIST in GO (golang)</title>
+    <title>Todo-List</title>
+    
 </head>
 <body class="bg-gray-900">
 <!-- NAVBAR -->
@@ -24,6 +25,10 @@
 <!-- CONTENT -->
         {{block "content" .}}
 
+        {{end}}
+
+        {{block "alltodos" .}}
+        
         {{end}}
 
 <!-- FOOTER -->
@@ -58,7 +63,7 @@
 
 <!-- JAVASCRIPT -->
         <!-- <script src="./static/javascript/index.js"> </script> -->
-        {{block "javascript" .}}
+        {{block "alltodos-js" .}}
 
         {{end}}
     </body>
