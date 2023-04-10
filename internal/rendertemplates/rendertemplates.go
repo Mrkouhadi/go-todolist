@@ -41,6 +41,7 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, tmplDat
 		log.Fatal("Could not get the template from Cached templates ! ")
 	}
 	buf := new(bytes.Buffer)
+
 	tmplData = AddDefaultData(tmplData, r)
 	_ = t.Execute(buf, tmplData)
 
@@ -63,7 +64,7 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 
 	// range through all files ending with *.page.html
 	for _, page := range pages {
-		fileName := filepath.Base(page) // filepath.Base returns the last element of the path
+		fileName := filepath.Base(page) // from "templates/home.page.tmpl" to "home.page.tmpl"
 		templSet, err := template.New(fileName).ParseFiles(page)
 		if err != nil {
 			return myCache, err
