@@ -1,6 +1,9 @@
 package forms
 
-import "net/url"
+import (
+	"net/http"
+	"net/url"
+)
 
 type Form struct {
 	url.Values
@@ -13,4 +16,10 @@ func New(data url.Values) *Form {
 		data,
 		errors(map[string][]string{}),
 	}
+}
+
+// Has checks if a field is empty
+func (f *Form) Has(field string, r *http.Request) bool {
+	xfield := r.Form.Get(field)
+	return xfield != ""
 }

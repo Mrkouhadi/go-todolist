@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/mrkouhadi/go-todolist/internal/config"
+	"github.com/mrkouhadi/go-todolist/internal/forms"
 	"github.com/mrkouhadi/go-todolist/internal/models"
 	"github.com/mrkouhadi/go-todolist/internal/rendertemplates"
 )
@@ -114,7 +115,11 @@ func (repo *Repository) AllTodosjson(w http.ResponseWriter, r *http.Request) {
 // ******************* SEARCH
 // GET
 func (repo *Repository) SearchTodos(w http.ResponseWriter, r *http.Request) {
-	rendertemplates.RenderTemplate(w, r, "search.page.tmpl", &models.TemplateData{})
+	data := make(map[string]interface{})
+	data["PageTitle"] = "Searching for a new todo"
+	rendertemplates.RenderTemplate(w, r, "search.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 }
 
 // POST
@@ -135,7 +140,12 @@ func (repo *Repository) PostSearchTodos(w http.ResponseWriter, r *http.Request) 
 //
 //	GET
 func (repo *Repository) AddNewTodo(w http.ResponseWriter, r *http.Request) {
-	rendertemplates.RenderTemplate(w, r, "addnewtodo.page.tmpl", &models.TemplateData{})
+	data := make(map[string]interface{})
+	data["PageTitle"] = "Add a new Todo"
+	rendertemplates.RenderTemplate(w, r, "addnewtodo.page.tmpl", &models.TemplateData{
+		Data: data,
+		Form: forms.New(nil),
+	})
 }
 
 // POST
@@ -158,7 +168,7 @@ func (repo *Repository) PostNewTodo(w http.ResponseWriter, r *http.Request) {
 
 	data := make(map[string]interface{})
 	data["todo"] = newTodo
-
+	data["PageTitle"] = "Posting a new Todo !"
 	rendertemplates.RenderTemplate(w, r, "addnewtodo.page.tmpl", &models.TemplateData{
 		Data: data,
 	})
