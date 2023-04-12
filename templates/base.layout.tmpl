@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=""{{index .Data "PageDescription"}}">
+    <meta name="keywords" content=""{{index .Data "PageKeywords"}}">
+    <meta name="author" content="Mr.Kouhadi">
     <script src="https://cdn.tailwindcss.com"></script>
+
     <title>{{if index .Data "PageTitle"}}{{index .Data "PageTitle"}}{{else}}Home{{end}}</title>
+    
 </head>
 <body class="bg-gray-900">
 <!-- NAVBAR -->

@@ -40,13 +40,24 @@ func NewHandlers(R *Repository) {
 
 // ******************* HOME
 func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	// repo.AppConfig.Session.Put(r.Context(), "greet", "Hello the world of golang devs")
-	rendertemplates.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
+	// get "greet" from the session
+	val := repo.AppConfig.Session.GetString(r.Context(), "greet")
+	data := make(map[string]interface{})
+	data["PageTitle"] = "All todos Listed here !"
+	data["PageDescription"] = "Description of our todos list page is here"
+	data["PageKeywords"] = "Todos,todolist,hobbies,education,sport"
+	data["greet"] = val
+	rendertemplates.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 }
 
 // ******************* TODOS
 // GET json
 func (repo *Repository) AllTodos(w http.ResponseWriter, r *http.Request) {
+	// stroe "greet" in to the session
+	repo.AppConfig.Session.Put(r.Context(), "greet", "Hello the world of golang devs")
+
 	todos := []models.TODO{
 		{
 			Title:       "hello gophers",
@@ -68,6 +79,8 @@ func (repo *Repository) AllTodos(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["todos"] = todos
 	data["PageTitle"] = "All todos Listed here !"
+	data["PageDescription"] = "Description of our todos list page is here"
+	data["PageKeywords"] = "Todos,todolist,hobbies,education,sport"
 	rendertemplates.RenderTemplate(w, r, "alltodos.page.tmpl", &models.TemplateData{
 		Data: data,
 	})
@@ -80,7 +93,6 @@ type jsonRes struct {
 }
 
 func (repo *Repository) AllTodosjson(w http.ResponseWriter, r *http.Request) {
-	// greet := repo.AppConfig.Session.GetString(r.Context(), "greet")
 	resp := jsonRes{
 		OK: true,
 		TODOS: []models.TODO{
@@ -115,6 +127,9 @@ func (repo *Repository) AllTodosjson(w http.ResponseWriter, r *http.Request) {
 // ******************* SEARCH
 // GET
 func (repo *Repository) SearchTodos(w http.ResponseWriter, r *http.Request) {
+
+	// remove "greet" key/value from  the session
+	repo.AppConfig.Session.Remove(r.Context(), "greet")
 	data := make(map[string]interface{})
 	data["PageTitle"] = "Searching for a new todo"
 	rendertemplates.RenderTemplate(w, r, "search.page.tmpl", &models.TemplateData{
@@ -142,6 +157,7 @@ func (repo *Repository) PostSearchTodos(w http.ResponseWriter, r *http.Request) 
 func (repo *Repository) AddNewTodo(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["PageTitle"] = "Add a new Todo"
+
 	rendertemplates.RenderTemplate(w, r, "addnewtodo.page.tmpl", &models.TemplateData{
 		Data: data,
 		Form: forms.New(nil),
