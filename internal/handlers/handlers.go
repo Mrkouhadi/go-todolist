@@ -132,6 +132,8 @@ func (repo *Repository) SearchTodos(w http.ResponseWriter, r *http.Request) {
 	repo.AppConfig.Session.Remove(r.Context(), "greet")
 	data := make(map[string]interface{})
 	data["PageTitle"] = "Searching for a new todo"
+	data["PageDescription"] = "Description of our todos list page is here"
+	data["PageKeywords"] = "Todos,todolist,hobbies,education,sport"
 	rendertemplates.RenderTemplate(w, r, "search.page.tmpl", &models.TemplateData{
 		Data: data,
 	})
@@ -157,7 +159,10 @@ func (repo *Repository) PostSearchTodos(w http.ResponseWriter, r *http.Request) 
 func (repo *Repository) AddNewTodo(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["PageTitle"] = "Add a new Todo"
-
+	data["PageDescription"] = "Description of our todos list page is here"
+	data["PageKeywords"] = "Todos,todolist,hobbies,education,sport"
+	var emptyTodo models.TODO
+	data["todo"] = emptyTodo
 	rendertemplates.RenderTemplate(w, r, "addnewtodo.page.tmpl", &models.TemplateData{
 		Data: data,
 		Form: forms.New(nil),
@@ -181,13 +186,21 @@ func (repo *Repository) PostNewTodo(w http.ResponseWriter, r *http.Request) {
 		IsDone:      false,
 		Time:        time.Now(),
 	}
+	// form
+	form := forms.New(r.PostForm)
+	form.Has("title", r)
+	form.Has("email", r)
+	form.Has("content", r)
 
-	data := make(map[string]interface{})
-	data["todo"] = newTodo
-	data["PageTitle"] = "Posting a new Todo !"
-	rendertemplates.RenderTemplate(w, r, "addnewtodo.page.tmpl", &models.TemplateData{
-		Data: data,
-	})
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["todo"] = newTodo
+		rendertemplates.RenderTemplate(w, r, "addnewtodo.page.tmpl", &models.TemplateData{
+			Data: data,
+			Form: form,
+		})
+		return
+	}
 }
 
 /********************************************************************************

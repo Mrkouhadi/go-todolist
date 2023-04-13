@@ -4,6 +4,7 @@
     <div class="mx-auto w-full max-w-[550px]">
       <form action="/addnewtodo" method="POST">
         <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+        {{$todo := index .Data "todo"}}
         <div class="mb-5">
           <label
             for="title"
@@ -15,9 +16,15 @@
             type="text"
             name="title"
             id="name"
+            value="{{$todo.Title}}"
             placeholder="Title of your Todo"
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
+          {{with .Form.Errors.Get "title"}}
+            <span class="text-red-500">{{.}}</span>
+            {{else}}
+            <span class="text-gray-400 text-sm">Enter The Title of Your Todo</span>
+          {{end}}
         </div>
         <div class="mb-5">
           <label
@@ -30,9 +37,15 @@
             type="email"
             name="email"
             id="email"
+            value="{{$todo.Email}}"
             placeholder="example@domain.com"
             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
           />
+          {{with .Form.Errors.Get "email"}}
+                <span class="text-red-500">{{.}}</span>
+          {{else}}
+                <span class="text-gray-400 text-sm">Enter Your Email</span>
+          {{end}}
         </div>
         <div class="mb-5">
           <label
@@ -53,10 +66,16 @@
           <textarea
             rows="4"
             name="content"
+            value="{{$todo.Content}}"
             id="message"
             placeholder="Type your Todo content"
-            class="w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+            class=" {{with .Form.Errors.Get "content"}} bg-red-400 {{else}} bg-white {{end}} text-[#6B7280] w-full resize-none rounded-md border border-[#e0e0e0] py-3 px-6 text-base font-medium  outline-none focus:border-[#6A64F1] focus:shadow-md"
           ></textarea>
+          {{with .Form.Errors.Get "content"}}
+              <span class="text-red-500">{{.}}</span>
+          {{else}}
+              <span class="text-gray-400 text-sm">Enter your The content of Your Todo</span>
+          {{end}}
         </div>
         <div>
           <input type="submit" value="Add Todo"
@@ -64,17 +83,6 @@
           />
         </div>
       </form>
-
-      <!-- showing the data after psoting it -->
-      {{$res := index .Data "todo"}}
-      <div class="bg-blue-400 p-4 my-4 rounded shadow">
-          <h1 class="">
-              {{$res.Title}}
-          </h1>
-          <h2 class="">{{$res.Email}}</h2>
-          <h2 class="">{{$res.Content}}</h2>
-          <h2 class="">{{if $res.IsImportant}}It is Important {{else}} It's NOT important{{end}}</h2>
-      </div>
     </div>
   </div>
 {{end}}
