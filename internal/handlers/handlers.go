@@ -188,9 +188,9 @@ func (repo *Repository) PostNewTodo(w http.ResponseWriter, r *http.Request) {
 	}
 	// form
 	form := forms.New(r.PostForm)
-	form.Has("title", r)
-	form.Has("email", r)
-	form.Has("content", r)
+
+	form.Required("title", "email", "content")
+	form.MinLength("title", 5, r)
 
 	if !form.Valid() {
 		data := make(map[string]interface{})
@@ -201,6 +201,9 @@ func (repo *Repository) PostNewTodo(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+
+	// redirect the user to /alltodos after successfully submitting the data
+	http.Redirect(w, r, "/alltodos", http.StatusSeeOther)
 }
 
 /********************************************************************************
