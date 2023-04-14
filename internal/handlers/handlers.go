@@ -191,7 +191,7 @@ func (repo *Repository) PostNewTodo(w http.ResponseWriter, r *http.Request) {
 
 	form.Required("title", "email", "content")
 	form.MinLength("title", 5, r)
-
+	form.IsEmail("email")
 	if !form.Valid() {
 		data := make(map[string]interface{})
 		data["todo"] = newTodo
