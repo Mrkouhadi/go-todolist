@@ -4,9 +4,37 @@
   <div class="">
     <div class="h-screen">
       <p>{{index .Data "greet"}}</p>
-      <h1>This is the HOME page</h1>
+
+      <h1 class="">This is the HOME page</h1>
+
+      {{if ne .Error  ""}}
+          <p id="error" class="bg-red-400 px-12 py-8 -translate-y-80 opacity-0 ">  {{.Error}}  </p>
+      {{end}}
+
     </div>
   </div>
 </div>
-
 {{end}} 
+
+{{define "alltodos-js"}}
+  <script>
+    const err = document.getElementById("error")
+
+    function popUp() {
+        if("{{.Error}}" != ""){
+          err.classList.remove("hidden") 
+          err.classList.add("opacity-100")
+          err.classList.add("transition")
+          err.classList.add("transition-all")
+          err.classList.add("duration-1000")
+          err.classList.add("translate-y-0")
+
+          setTimeout(function () {
+            err.style.display = "none";
+          }, 3000);   
+        }
+    }
+    popUp();
+    
+  </script>
+{{end}}

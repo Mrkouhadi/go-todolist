@@ -1,0 +1,10 @@
+{{template "base" .}}
+{{define "content"}}
+    <div class="h-screen bg-red-400 text-gray-700">
+        {{$todo := index .Data "newTodo"}}
+        <h1 class="">{{$todo.Title}}</h1>
+        <p class="">{{$todo.Content}}</p>
+        <h1 class="">{{if $todo.IsImportant}}It is important{{else}}Not Important {{end}}</h1>
+        
+    </div>
+{{end}}

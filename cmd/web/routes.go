@@ -23,7 +23,7 @@ func Routes(app *config.Appconfiguration) http.Handler {
 	mux.Get("/alltodos", handlers.Repo.AllTodos)
 	mux.Get("/search", handlers.Repo.SearchTodos)
 	mux.Get("/addnewtodo", handlers.Repo.AddNewTodo)
-
+	mux.Get("/todo-review", handlers.Repo.TodoReview)
 	// json experimental
 	mux.Get("/alltodos-json", handlers.Repo.AllTodosjson)
 

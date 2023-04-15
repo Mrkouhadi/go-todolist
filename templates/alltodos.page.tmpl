@@ -1,15 +1,21 @@
 {{template "base" .}}
 
-{{define "alltodos"}}
-<div class="h-screen  bg-pink-400">
-    <h1 class="text-3xl ">{{index .Data "PageTitle"}}</h1>
-    <div class="todolist">
-       <p> Hi todos </p>
-       {{ $t := index .Data "todos" }}
+{{define "content"}}
+<div class="min-h-screen  text-white">
+    <h1 class="text-3xl font-bold text-center my-4 tracking-widest">{{index .Data "PageTitle"}}</h1>
+    {{ $t := index .Data "todos" }}
+    <p class="text-lg text-center my-4 tracking-widest">There {{len $t}} Todos in your List</p>
+    <div class="todolist flex flex-wrap gap-8">
        {{range $t }}
-         <h1>{{.Title}}</h1>
+          <div class="cursor-pointer p-4 m-2 flex w-[400px] flex-col items-center justify-between gap-4 bg-gray-400 rounded shadow">
+              <h1 class=" text-black {{with .IsDone}} line-through {{end}} text-3xl text-center font-extrabold ">{{.Title}}</h1>
+              <h3 class="{{with .IsDone}} line-through {{end}} text-md text-gray-900">{{.Content}}</h3>
+              <div class="flex items-center justify-between w-full">
+                <h3 class="text-sm text-gray-700">{{.Email}}</h3>
+                <h3 class="text-sm text-gray-700">{{.Time}}</h3>
+              </div>
+          </div>
        {{end}}
-       <p>There {{len $t}} Todos in your List</p>
     </div>
 </div>
 {{end}}

@@ -13,7 +13,7 @@
     <title>{{if index .Data "PageTitle"}}{{index .Data "PageTitle"}}{{else}}Home{{end}}</title>
     
 </head>
-<body class="bg-gray-900">
+<body class="bg-gray-900 h-screen">
 <!-- NAVBAR -->
         <nav class="shadow bg-white">
                 <div class="h-16 mx-auto px-5 flex items-center justify-between">
@@ -30,11 +30,6 @@
         {{block "content" .}}
 
         {{end}}
-
-        {{block "alltodos" .}}
-        
-        {{end}}
-
 <!-- FOOTER -->
         <div class="">
           <footer class="p-4 bg-white shadow md:px-6 md:py-8 bg-white">
